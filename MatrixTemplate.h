@@ -5,6 +5,8 @@
 #ifndef MATRICITEMPLATE_MATRIXTEMPLATE_H
 #define MATRICITEMPLATE_MATRIXTEMPLATE_H
 
+#include <iostream>
+
 template <typename T>
 class MatrixTemplate {
 public:
@@ -48,6 +50,26 @@ public:
             for(int j=0;j<rh.columns;j++)
                 buffer[rh.columns*i+j]=rh.buffer[rh.columns*j+i];
         return *this;
+    }
+
+
+    void print(){
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<columns;j++){
+                std::cout<<buffer[columns*i+j];
+            }
+            std::cout<<std::endl;
+        }
+    }
+
+    T getValue(int i,int j){
+       //TODO impostare i range gisuti
+        return buffer[columns*(j-1)+i-1];
+    }
+
+    void setValue(int i, int j,const T& value){
+        //TODO impostare i range corretti
+        buffer[columns*(j-1)+i-1]=value;
     }
 
 
