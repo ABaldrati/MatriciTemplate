@@ -39,6 +39,9 @@ int main() {
     MatrixTemplate<int> MatD(2,2);
     MatD=MatA*MatC;
     MatD.print();
+    MatrixTemplate<int> MatE(2,2);
+    MatE=MatA.selectColumns(2);
+    MatE.print();
 
 
 
