@@ -60,7 +60,7 @@ public:
         if (columns != rh.rows)
             throw std::logic_error(
                     "Nell'operazione di prodotto le colonne del primo fattore devono essere lo stesso numero delle ricghe del seocndo fattore");
-        MatrixTemplate<T> tmp(rows, rh.columns);;
+        MatrixTemplate<T> tmp(rows, rh.columns);
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < rh.columns; j++) {
                 tmp.buffer[i * rh.columns + j] = 0;
@@ -129,6 +129,22 @@ public:
         for (int i = 0; i < rows; i++)
             tmp.buffer[i] = buffer[j - 1 + columns * i];
         return tmp;
+    }
+
+    int getRows(){
+        return rows;
+    }
+
+    int getColumns(){
+        return columns;
+    }
+
+    void setRows(int r){
+        rows=r;
+    }
+
+    void setColumns(int c){
+        columns=c;
     }
 
 
