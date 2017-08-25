@@ -6,6 +6,7 @@
 #define MATRICITEMPLATE_MATRIXTEMPLATE_H
 
 #include <iostream>
+#include <stdexcept>
 
 template<typename T>
 class MatrixTemplate {
@@ -35,7 +36,7 @@ public:
         buffer = new T[rows * columns];
         for (int i = 0; i < rows * columns; i++)
             buffer[i] = rh.buffer[i];
-
+        return *this;
     }
 
 
@@ -46,7 +47,9 @@ public:
     }
 
     MatrixTemplate operator+(const MatrixTemplate &rh) const {
-        //TODO righe e colonne devono essere uguali
+        if (rows != rh.rows || columns != rh.columns)
+            throw std::logic_error(
+                    "Nell'operazione di somma righe e colonne degli addenti devono essere dello stesso numero");
         MatrixTemplate<T> tmp(rows, columns);
         for (int i = 0; i < rh.rows * rh.columns; i++)
             tmp.buffer[i] = buffer[i] + rh.buffer[i];
@@ -54,7 +57,9 @@ public:
     }
 
     MatrixTemplate operator*(const MatrixTemplate &rh) const {
-        //TODO lh.colum==rh.rows
+        if (columns != rh.rows)
+            throw std::logic_error(
+                    "Nell'operazione di prodotto le colonne del primo fattore devono essere lo stesso numero delle ricghe del seocndo fattore");
         MatrixTemplate<T> tmp(rows, rh.columns);;
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < rh.columns; j++) {
@@ -66,11 +71,11 @@ public:
     }
 
 
-    bool operator==(const MatrixTemplate& rh) const{
-        if(rows!=rh.rows || columns!=rh.columns)
+    bool operator==(const MatrixTemplate &rh) const {
+        if (rows != rh.rows || columns != rh.columns)
             return false;
-        for(int i=0;i<rows*columns;i++){
-            if (buffer[i]!=rh.buffer[i])
+        for (int i = 0; i < rows * columns; i++) {
+            if (buffer[i] != rh.buffer[i])
                 return false;
         }
         return true;
@@ -97,26 +102,32 @@ public:
     }
 
     T getValue(int i, int j) const {
-        //TODO impostare i range gisuti
+        if (i > rows || j > columns)
+            throw std::out_of_range("Elemento non presente nella matrice");
         return buffer[columns * (i - 1) + j - 1];
     }
 
     void setValue(int i, int j, const T &value) const {
-        //TODO impostare i range corretti
+        if (i > rows || j > columns)
+            throw std::out_of_range("Elemento non presente nella matrice");
         buffer[columns * (i - 1) + j - 1] = value;
     }
 
-    MatrixTemplate selectRow(int i){
-        MatrixTemplate<T> tmp(1,columns);
-        for(int j=0;j<columns;j++)
-            tmp.buffer[j]=buffer[columns*(i-i)+j];
+    MatrixTemplate selectRow(int i) {
+        if (i > rows)
+            throw std::out_of_range("Riga non presente nella matrice");
+        MatrixTemplate<T> tmp(1, columns);
+        for (int j = 0; j < columns; j++)
+            tmp.buffer[j] = buffer[columns * (i - i) + j];
         return tmp;
     }
 
-    MatrixTemplate selectColumns(int j){
-        MatrixTemplate<T> tmp(rows,1);
-        for(int i=0;i<rows;i++)
-            tmp.buffer[i]=buffer[j-1+columns*i];
+    MatrixTemplate selectColumns(int j) {
+        if (j > rows)
+            throw std::out_of_range("Colonna non presente nella matrice");
+        MatrixTemplate<T> tmp(rows, 1);
+        for (int i = 0; i < rows; i++)
+            tmp.buffer[i] = buffer[j - 1 + columns * i];
         return tmp;
     }
 
