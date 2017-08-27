@@ -13,6 +13,8 @@ class MatrixTemplate {
 public:
     MatrixTemplate(int r, int c) : rows(r), columns(c) {
         buffer = new T[r * c];
+        for(int i=0;i<r*c;i++)
+            buffer[i]=0;
     }
 
     ~MatrixTemplate() {
@@ -40,7 +42,10 @@ public:
     }
 
 
-    MatrixTemplate &operator+=(const MatrixTemplate &rh) {
+    MatrixTemplate &operator+=(const MatrixTemplate &rh){
+        if (rows!=rh.rows || columns!=rh.columns)
+            throw std::logic_error(
+                    "Nell'operazione di somma righe e colonne degli addenti devono essere dello stesso numero");
         for (int i = 0; i < rows * columns; i++)
             buffer[i] = buffer[i] + rh.buffer[i];
         return *this;
@@ -118,7 +123,7 @@ public:
             throw std::out_of_range("Riga non presente nella matrice");
         MatrixTemplate<T> tmp(1, columns);
         for (int j = 0; j < columns; j++)
-            tmp.buffer[j] = buffer[columns * (i - i) + j];
+            tmp.buffer[j] = buffer[columns * (i - 1) + j];
         return tmp;
     }
 
