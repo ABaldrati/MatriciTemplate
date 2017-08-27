@@ -12,8 +12,12 @@ template<typename T>
 class MatrixTemplate {
 public:
     MatrixTemplate(int r, int c) : rows(r), columns(c) {
-        buffer = new T[r * c];
-        for(int i=0;i<r*c;i++)
+        if (r<1)
+            rows=1;
+        if (c<1)
+            columns=1;
+        buffer = new T[rows * columns];
+        for(int i=0;i<rows*columns;i++)
             buffer[i]=0;
     }
 
@@ -107,7 +111,7 @@ public:
     }
 
     T getValue(int i, int j) const {
-        if (i > rows || j > columns)
+        if (i > rows|| i<1 || j<1  || j > columns)
             throw std::out_of_range("Elemento non presente nella matrice");
         return buffer[columns * (i - 1) + j - 1];
     }
@@ -119,7 +123,7 @@ public:
     }
 
     MatrixTemplate selectRow(int i) {
-        if (i > rows)
+        if (i > rows || i<1)
             throw std::out_of_range("Riga non presente nella matrice");
         MatrixTemplate<T> tmp(1, columns);
         for (int j = 0; j < columns; j++)
@@ -128,7 +132,7 @@ public:
     }
 
     MatrixTemplate selectColumns(int j) {
-        if (j > rows)
+        if (j > rows || j<1)
             throw std::out_of_range("Colonna non presente nella matrice");
         MatrixTemplate<T> tmp(rows, 1);
         for (int i = 0; i < rows; i++)
@@ -144,14 +148,12 @@ public:
         return columns;
     }
 
-    void setRows(int r){
-        rows=r;
+    static MatrixTemplate<T> identity(int x){
+        MatrixTemplate<T> tmp(x,x);
+        for(int i=0;i<=x;i++)
+            tmp.setValue(i,i,1);
+        return tmp;
     }
-
-    void setColumns(int c){
-        columns=c;
-    }
-
 
 private:
     int rows, columns;

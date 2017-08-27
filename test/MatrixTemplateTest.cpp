@@ -7,6 +7,8 @@ TEST(MatrixTemplate,DefaultConstructor){
     ASSERT_EQ(4,MatA.getRows());
     ASSERT_EQ(6,MatA.getColumns());
     ASSERT_EQ(0,MatA.getValue(3,2));
+    MatrixTemplate<int> MatB(0,5);
+    ASSERT_EQ(1,MatB.getRows());
 }
 
 
