@@ -22,19 +22,22 @@ MatrixTemplate<T> operator*(const N& lh,const MatrixTemplate<T>& rh) {
 
 
 template<typename T>
-bool isEqual(const MatrixTemplate<T>&lh, const MatrixTemplate<T>&rh) {
-    for (int i = 0; i < lh.getRow() * lh.getColumn(); i++) {
-        if (lh.getBuffer()[i] != rh.getBuffer()[i])
-            return false;
-    }
-    return true;
+bool isEqual(const T&lh, const T&rh) {
+    return lh==rh;
 }
 
 template<>
-bool isEqual<float>(const MatrixTemplate<float>&lh,const MatrixTemplate<float>&rh);
+bool isEqual<float>(const float&lh,const float&rh) {
+    if (fabsf(lh - rh) > FLT_EPSILON)
+        return false;
+    else return true;
+}
 
 
 template<>
-bool isEqual<double>(const MatrixTemplate<double>&lh,const MatrixTemplate<double>&rh);
-
+bool isEqual<double>(const double&lh,const double&rh) {
+    if (fabs(lh - rh) > FLT_EPSILON)
+        return false;
+    else return true;
+}
 #endif //MATRICITEMPLATE_UTILSMATRIXTEMPLATE_H

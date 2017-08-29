@@ -1,6 +1,5 @@
 #include "iostream"
 #include "MatrixTemplate.h"
-#include "UtilsMatrixTemplate.h"
 int main() {
     MatrixTemplate<float> MatA(2,3);
     MatA.setValue(1,1,1);
@@ -14,7 +13,7 @@ int main() {
     MatB=3*MatA;
     MatA.print();
     MatB.print();
-    if(MatA!=MatB)
+    if(MatA==MatB)
         std::cout<<"abs";
     else std::cout<<"cds";
 

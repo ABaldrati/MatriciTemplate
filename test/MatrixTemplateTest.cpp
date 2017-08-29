@@ -20,7 +20,7 @@ TEST(MatrixTemplate,CopyConstructor){
     MatA.setValue(2,1,7);
     MatA.setValue(2,3,1.6);
     MatrixTemplate<float> MatB(MatA);
-    ASSERT_EQ(MatA,MatB);
+    ASSERT_TRUE(MatA==MatB);
     MatB.setValue(1,1,7);
     ASSERT_FALSE(MatA==MatB);
 }
@@ -77,6 +77,25 @@ TEST(MatrixTemplate,OperatorPlus){
     ASSERT_ANY_THROW(MatA+MatB);
 }
 
+TEST(MatrixTemplate,EqualAndDifferent){
+    MatrixTemplate<float> MatA(2,2);
+    MatA.setValue(1,1,0.8);
+    MatA.setValue(1,2,1.5);
+    MatA.setValue(2,1,5);
+    MatA.setValue(2,2,0.8);
+    MatrixTemplate<float> MatB(2,2);
+    MatB.setValue(1,1,0.8);
+    MatB.setValue(1,2,1.5);
+    MatB.setValue(2,1,5);
+    MatB.setValue(2,2,0.8);
+    ASSERT_TRUE(MatA==MatB);
+    ASSERT_FALSE(MatA!=MatB);
+    MatA.setValue(1,1,3.2);
+    ASSERT_TRUE(MatA!=MatB);
+    ASSERT_FALSE(MatA==MatB);
+
+}
+
 TEST(MatrixTemplate,OperatorProduct){
     MatrixTemplate<int> MatA(2,3);
     MatA.setValue(1,1,1);
@@ -99,6 +118,10 @@ TEST(MatrixTemplate,OperatorProduct){
     ASSERT_EQ(42,MatB.getValue(1,2));
     ASSERT_EQ(48,MatB.getValue(2,1));
     ASSERT_EQ(65,MatB.getValue(2,2));
+    MatB=3*MatA;
+    ASSERT_EQ(6,MatB.getValue(1,2));
+    ASSERT_EQ(36,MatB.getValue(2,1));
+    ASSERT_EQ(21,MatB.getValue(2,2));
 }
 
 TEST(MatrixTemplate,Transpose){
@@ -135,7 +158,7 @@ TEST(MatrixTemplate,SelectColumn){
     ASSERT_ANY_THROW(MatA.selectColumn(4));
 }
 
-TEST(MatrixTemplate,SelectRows){
+TEST(MatrixTemplate,SelectRow){
     MatrixTemplate<char> MatA(3,3);
     MatA.setValue(1,1,3);
     MatA.setValue(1,2,1);

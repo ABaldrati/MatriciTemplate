@@ -94,7 +94,11 @@ public:
     bool operator==(const MatrixTemplate &rh) const {
         if (rows != rh.rows || columns != rh.columns)
             return false;
-        return isEqual(*this,rh);
+        for (int i = 0; i < rows * columns; i++) {
+            if (!isEqual(buffer[i],rh.buffer[i]))
+                return false;
+        }
+        return true;
     }
 
     bool operator!=(const MatrixTemplate& rh)const {
@@ -159,9 +163,6 @@ public:
         return columns;
     }
 
-    T* getBuffer() const{
-        return buffer;
-    }
 
     static MatrixTemplate<T> identity(int x){
         MatrixTemplate<T> tmp(x,x);
