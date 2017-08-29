@@ -4,11 +4,11 @@
 
 TEST(MatrixTemplate,DefaultConstructor){
     MatrixTemplate<int> MatA(4,6);
-    ASSERT_EQ(4,MatA.getRows());
-    ASSERT_EQ(6,MatA.getColumns());
+    ASSERT_EQ(4, MatA.getRow());
+    ASSERT_EQ(6, MatA.getColumn());
     ASSERT_EQ(0,MatA.getValue(3,2));
     MatrixTemplate<int> MatB(0,5);
-    ASSERT_EQ(1,MatB.getRows());
+    ASSERT_EQ(1, MatB.getRow());
 }
 
 
@@ -110,14 +110,14 @@ TEST(MatrixTemplate,Transpose){
     MatA.setValue(3,1,1);
     MatA.setValue(3,2,9);
     MatrixTemplate<long int> MatB(MatA.transpose());
-    ASSERT_EQ(3,MatB.getColumns());
-    ASSERT_EQ(2,MatB.getRows());
+    ASSERT_EQ(3, MatB.getColumn());
+    ASSERT_EQ(2, MatB.getRow());
     ASSERT_EQ(9,MatB.getValue(2,3));
     ASSERT_EQ(5,MatB.getValue(2,1));
     ASSERT_EQ(7,MatB.getValue(2,2));
 }
 
-TEST(MatrixTemplate,SelectColumns){
+TEST(MatrixTemplate,SelectColumn){
     MatrixTemplate<char> MatA(3,3);
     MatA.setValue(1,1,3);
     MatA.setValue(1,2,1);
@@ -128,11 +128,11 @@ TEST(MatrixTemplate,SelectColumns){
     MatA.setValue(3,1,8);
     MatA.setValue(3,2,9);
     MatA.setValue(3,3,1);
-    MatrixTemplate<char> MatB(MatA.selectColumns(2));
+    MatrixTemplate<char> MatB(MatA.selectColumn(2));
     ASSERT_EQ(1,MatB.getValue(1,1));
     ASSERT_EQ(4,MatB.getValue(2,1));
     ASSERT_EQ(9,MatB.getValue(3,1));
-    ASSERT_ANY_THROW(MatA.selectColumns(4));
+    ASSERT_ANY_THROW(MatA.selectColumn(4));
 }
 
 TEST(MatrixTemplate,SelectRows){

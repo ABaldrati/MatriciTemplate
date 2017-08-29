@@ -7,6 +7,9 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <cmath>
+#include <cfloat>
+#include "UtilsMatrixTemplate.h"
 
 template<typename T>
 class MatrixTemplate {
@@ -49,7 +52,7 @@ public:
     MatrixTemplate &operator+=(const MatrixTemplate &rh){
         if (rows!=rh.rows || columns!=rh.columns)
             throw std::logic_error(
-                    "Nell'operazione di somma righe e colonne degli addenti devono essere dello stesso numero");
+                    "Nell'operazione di somma, righe e colonne degli addenti devono essere dello stesso numero");
         for (int i = 0; i < rows * columns; i++)
             buffer[i] = buffer[i] + rh.buffer[i];
         return *this;
@@ -79,15 +82,23 @@ public:
         return tmp;
     }
 
+    MatrixTemplate operator*(const T& rh) const {
+        MatrixTemplate<T> retMatrix(rows,columns);
+        for(int i=0; i<rows*columns;i++)
+            retMatrix.buffer[i]=rh*buffer[i];
+        return retMatrix;
+
+    }
+
 
     bool operator==(const MatrixTemplate &rh) const {
         if (rows != rh.rows || columns != rh.columns)
             return false;
-        for (int i = 0; i < rows * columns; i++) {
-            if (buffer[i] != rh.buffer[i])
-                return false;
-        }
-        return true;
+        return isEqual(*this,rh);
+    }
+
+    bool operator!=(const MatrixTemplate& rh)const {
+        return !(*this==rh);
     }
 
 
@@ -131,7 +142,7 @@ public:
         return tmp;
     }
 
-    MatrixTemplate selectColumns(int j) {
+    MatrixTemplate selectColumn(int j) {
         if (j > rows || j<1)
             throw std::out_of_range("Colonna non presente nella matrice");
         MatrixTemplate<T> tmp(rows, 1);
@@ -140,12 +151,16 @@ public:
         return tmp;
     }
 
-    int getRows(){
+    int getRow() const{
         return rows;
     }
 
-    int getColumns(){
+    int getColumn() const{
         return columns;
+    }
+
+    T* getBuffer() const{
+        return buffer;
     }
 
     static MatrixTemplate<T> identity(int x){
@@ -155,10 +170,13 @@ public:
         return tmp;
     }
 
+
+
 private:
     int rows, columns;
     T *buffer;
 };
+
 
 
 #endif //MATRICITEMPLATE_MATRIXTEMPLATE_H
