@@ -52,7 +52,7 @@ public:
     MatrixTemplate &operator+=(const MatrixTemplate &rh){
         if (rows!=rh.rows || columns!=rh.columns)
             throw std::logic_error(
-                    "Nell'operazione di somma, righe e colonne degli addenti devono essere dello stesso numero");
+                    "Nell'operazione di somma, righe e colonne degli addendi devono essere dello stesso numero");
         for (int i = 0; i < rows * columns; i++)
             buffer[i] = buffer[i] + rh.buffer[i];
         return *this;
@@ -61,7 +61,7 @@ public:
     MatrixTemplate operator+(const MatrixTemplate &rh) const {
         if (rows != rh.rows || columns != rh.columns)
             throw std::logic_error(
-                    "Nell'operazione di somma righe e colonne degli addenti devono essere dello stesso numero");
+                    "Nell'operazione di somma righe e colonne degli addendi devono essere dello stesso numero");
         MatrixTemplate<T> tmp(rows, columns);
         for (int i = 0; i < rh.rows * rh.columns; i++)
             tmp.buffer[i] = buffer[i] + rh.buffer[i];
@@ -71,7 +71,7 @@ public:
     MatrixTemplate operator*(const MatrixTemplate &rh) const {
         if (columns != rh.rows)
             throw std::logic_error(
-                    "Nell'operazione di prodotto le colonne del primo fattore devono essere lo stesso numero delle ricghe del seocndo fattore");
+                    "Nell'operazione di prodotto le colonne del primo fattore devono essere lo stesso numero delle righe del secondo fattore");
         MatrixTemplate<T> tmp(rows, rh.columns);
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < rh.columns; j++) {

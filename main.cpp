@@ -13,10 +13,5 @@ int main() {
     MatB=3*MatA;
     MatA.print();
     MatB.print();
-    if(MatA==MatB)
-        std::cout<<"abs";
-    else std::cout<<"cds";
-
-
 
 }
